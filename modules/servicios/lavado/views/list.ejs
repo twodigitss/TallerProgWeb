@@ -1,0 +1,85 @@
+<head>
+    <style>
+        <%- include('../../../../public/css/estilos.css') %>  
+    </style>
+</head>
+<div class="container mt-5">
+  <div class="header">
+      <h1>Bienvenido a Nuestra Tintorería</h1>
+      <p>Los mejores servicios de lavado para tus prendas</p>
+  </div>
+  
+  <!-- Imagen representativa del servicio -->
+  <div class="text-center mb-4">
+      <img src="https://img.freepik.com/fotos-premium/retrato-trabajador-lavanderia-fondo-ropa-perchas-tintoreria_154092-5784.jpg?semt=ais_hybrid" alt="Servicios de Lavado" class="img-fluid" style="max-width: 100%; height: auto;">
+  </div>
+
+  <!-- Descripción del servicio -->
+  <div class="alert alert-info text-center" role="alert">
+      <strong>¡Bienvenido a nuestra tintorería!</strong> Ofrecemos una amplia gama de servicios de lavado para todo tipo de prendas. Desde ropa delicada hasta prendas de uso diario, garantizamos un cuidado excepcional y resultados impecables.
+  </div>
+
+  <h2 class="text-center text-primary">Lista de Servicios de Lavado</h2>
+
+  <div class="d-flex justify-content-between align-items-center mb-4" style="min-height: 100px;">
+      <% if (user.role === 'admin') { %>
+      <a class="btn btn-success" href="/<%= moduleName %>/form/new">Crear Nuevo Servicio</a>
+      <% } %>
+      <form class="form-inline" method="GET" action="<%= moduleName %>">
+          <input class="form-control mr-sm-2" type="search" placeholder="Buscar servicio" aria-label="Buscar" name="search" value="<%= typeof searchQuery !== 'undefined' ? searchQuery : '' %>">
+          <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Buscar</button>
+      </form>
+      <%- include('../../../../views/partials/pages',{ modelView: 'itemes' }) %>
+  </div>
+
+  <!-- Tabla de Servicios de Lavado -->
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Tipo de Prenda</th>
+        <th>Descripción</th>
+        <th>Precio</th>
+        <th>Cliente</th>
+        <th>Teléfono del Cliente</th> <!-- Nueva columna -->
+        <th>Estado</th>
+        <th>Día de Recibido</th> <!-- Nueva columna -->
+        <th>Fecha de Entrega</th> <!-- Nueva columna -->
+        <th>Instrucciones Especiales</th> <!-- Nueva columna -->
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if (results.length === 0) { %>
+          <tr>
+              <td colspan="11" class="text-center">No hay servicios disponibles.</td>
+          </tr>
+      <% } else { %>
+          <% results.forEach((item, index) => { %>
+              <tr>
+                  <td><%= index + 1 %></td>
+                  <td><%= item.tipoPrenda %></td>
+                  <td><%= item.descripcion %></td>
+                  <td><%= item.precio %></td>
+                  <td><%= item.cliente %></td>
+                  <td><%= item.telefonoCliente %></td> <!-- Mostrar teléfono del cliente -->
+                  <td><%= item.estado %></td>
+                  <td><%= item.fechaRecibido ? new Date(item.fechaRecibido).toLocaleDateString() : 'N/A' %></td> <!-- Mostrar la fecha de recibido -->
+                  <td><%= item.fechaEntrega ? new Date(item.fechaEntrega).toLocaleDateString() : 'N/A' %></td> <!-- Mostrar la fecha de entrega -->
+                  <td><%= item.instruccionesEspeciales || 'N/A' %></td> <!-- Mostrar instrucciones especiales -->
+                  <td>
+                      <a href="/<%= moduleName %>/form/edit/<%= item._id %>" class="btn btn-sm btn-warning">Editar</a>
+                      <form action="/<%= moduleName %>/form/delete/<%= item._id %>" method="POST" class="d-inline">
+                          <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de eliminar este servicio?');">Eliminar</button>
+                      </form>
+                  </td>
+              </tr>
+          <% }) %>
+      <% } %>
+    </tbody>
+  </table>
+</div>
+
+<div class="footer">
+  <p>&copy; 2023 Tintorería. Todos los derechos reservados.</p>
+</div>

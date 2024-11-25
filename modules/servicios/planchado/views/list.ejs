@@ -1,0 +1,74 @@
+  <div class="container mt-5 ">
+    <!-- Aqui empieza mi locura. enserio, que putas? un 60% de la estructura cambi`o ...-->
+    <div class="contenedor_de_kike">
+        <h1 id="titulo_contenedor"><strong>Servicio de planchado</strong></h1>
+      <div class="icon">
+          <img width="100%" src="https://mx.pressto.com/wp-content/uploads/2019/01/servicios-tintorerias2-1.jpg" alt="iron"/>
+      </div>
+      <div class="informacion alert alert-info text-center" role="alert">
+            <p> Bienvenido al servicio de planchado de este negocio!. 
+                Aqui podras hacer pedido de planchado de ropas de algodon, poliester y
+                otro tipo de telas.
+            </p>
+      </div>
+      <div class="info-box">
+          <!--bruh. esa cosa venia de "Crear", junto en este mismo archivo yo yo buscando en otro sitio-->
+          <a href="/<%= moduleName %>/form/new"><strong>Hacer un pedido</strong></a>
+        <div class="slide-text">
+            <p> Haz clic en este boton para hacer tu primera orden!</p>
+        </div>
+      </div>
+    </div>
+    <hr>
+    <!-- Aqui termina mi locura.-->
+    <h2 id="borderline_w_my_sheesh">Lista de <%= title %></h2>
+    <div class="d-flex justify-content-between align-items-center mb-1" style="min-height: 100px;">
+      <% if (user.role === 'admin') { %>
+        <!--TODO: hacer algo con el user.role para agregar registros solo con el boton que hice-->
+        <!--a class="btn btn-primary" href="/<%= moduleName %>/form/new">Nuevo</a-->
+      <% } %>
+      <form class="form-inline" method="GET" action="<%= moduleName %>">
+        <button class="btn_buscar btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
+        <input class="form-control mr-sm-2" type="search" placeholder="Buscar Ordenes" aria-label="Buscar" name="search" value="<%= typeof searchQuery !== 'undefined' ? searchQuery : '' %>">
+      </form>
+      <%- include('../../../../views/partials/pages',{ modelView: 'itemes' }) %>
+    </div>
+
+    <!-- Tabla de Usuarios -->
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Clave</th>
+          <th>Descripcion</th>
+          <th>Creditos</th>
+          <th>Horas Practica</th>
+          <th>Horas Teoricas</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% results.forEach((item, index) => { %>
+          <tr>
+            <td><%= index + 1 %></td>
+            <td><%= item.name %></td>
+            <td><%= item.description %></td>
+            <td><%= item.cred %></td>
+            <td><%= item.hp %></td>
+            <td><%= item.ht %></td>
+            <td>
+              <a href="/<%= moduleName %>/form/edit/<%= item._id %>" class="btn btn-sm btn-warning">Editar</a>
+              <form action="/<%= moduleName %>/form/delete/<%= item._id %>" method="POST" class="d-inline">
+                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de eliminar este item?');">Eliminar</button>
+              </form>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+    <hr>
+  </div>
+
+
+  <footer id="footerKike">
+  <p>&copy; 2023 Tintorería. Todos los derechos reservados.</p>
+  </footer>

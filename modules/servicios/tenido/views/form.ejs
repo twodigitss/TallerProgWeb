@@ -1,0 +1,97 @@
+
+  <div class="centered-container">
+    <div class="form-container">
+      <a href="/<%= moduleName %>/list" class="close-btn">&times;</a>
+      <h2 class="text-center mb-4"><%= typeform === 'edit' ? 'Editar': 'Crear' %> <%= title %></h2>
+      <% if (Array.isArray(error_msg) && error_msg.length > 0) { %>
+        <div class="alert alert-danger">
+          <% error_msg.forEach(function(msg) { %>
+            <p class="mb-0"><%= msg %></p>
+          <% }) %>
+        </div>
+      <% } %>
+      <form action="/<%= moduleName %>/form/<%= typeof item !== 'undefined' ? 'edit/' + item._id : 'new' %>" method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+          <label for="ordenId">Número de Orden</label>
+          <input type="text" class="form-control" id="ordenId" name="ordenId" 
+                 value="<%= typeof item !== 'undefined' ? item.ordenId : '' %>" required>
+        </div>
+
+        <div class="form-group">
+          <label for="clienteNombre">Nombre del Cliente</label>
+          <input type="text" class="form-control" id="clienteNombre" name="clienteNombre" 
+                 value="<%= typeof item !== 'undefined' ? item.clienteNombre : '' %>" required>
+        </div>
+
+        <div class="form-group">
+          <label for="clienteTelefono">Teléfono del Cliente</label>
+          <input type="tel" class="form-control" id="clienteTelefono" name="clienteTelefono" 
+                 value="<%= typeof item !== 'undefined' ? item.clienteTelefono : '' %>" required>
+        </div>
+
+        <div class="form-group">
+          <label for="tipoTela">Tipo de Tela</label>
+          <input type="text" class="form-control" id="tipoTela" name="tipoTela" 
+                 value="<%= typeof item !== 'undefined' ? item.tipoTela : '' %>" required>
+        </div>
+
+        <div class="form-group">
+          <label for="colorOriginal">Color Original</label>
+          <input type="text" class="form-control" id="colorOriginal" name="colorOriginal" 
+                 value="<%= typeof item !== 'undefined' ? item.colorOriginal : '' %>">
+        </div>
+
+        <div class="form-group">
+          <label for="colorDeseado">Color Deseado</label>
+          <input type="text" class="form-control" id="colorDeseado" name="colorDeseado" 
+                 value="<%= typeof item !== 'undefined' ? item.colorDeseado : '' %>" required>
+        </div>
+
+        <div class="form-group">
+          <label for="fechaRecepcion">Fecha de Recepción</label>
+          <input type="date" class="form-control" id="fechaRecepcion" name="fechaRecepcion" 
+                 value="<%= typeof item !== 'undefined' ? item.fechaRecepcion.toISOString().split('T')[0] : new Date().toISOString().split('T')[0] %>" required>
+        </div>
+
+        <div class="form-group">
+          <label for="fechaEntrega">Fecha Estimada de Entrega</label>
+          <input type="date" class="form-control" id="fechaEntrega" name="fechaEntrega" 
+                 value="<%= typeof item !== 'undefined' && item.fechaEntrega ? item.fechaEntrega.toISOString().split('T')[0] : '' %>">
+        </div>
+
+        <div class="form-group">
+          <label for="estado">Estado del Servicio</label>
+          <select class="form-control" id="estado" name="estado" required>
+            <% const estados = ['recibido', 'en proceso', 'teñido', 'secado', 'finalizado', 'entregado'] %>
+            <% estados.forEach(function(estado) { %>
+              <option value="<%= estado %>" 
+                <%= typeof item !== 'undefined' && item.estado === estado ? 'selected' : '' %>>
+                <%= estado.charAt(0).toUpperCase() + estado.slice(1) %>
+              </option>
+            <% }) %>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="observaciones">Observaciones</label>
+          <textarea class="form-control" id="observaciones" name="observaciones" rows="3"><%= typeof item !== 'undefined' ? item.observaciones : '' %></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="precio">Precio</label>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text">$</span>
+            </div>
+            <input type="number" class="form-control" id="precio" name="precio" 
+                   value="<%= typeof item !== 'undefined' ? item.precio : '' %>" required step="0.01">
+          </div>
+        </div>
+
+        <div class="button-container">
+          <button type="submit" class="btn btn-primary">Guardar</button>
+          <a class="btn btn-secondary" href="/<%= moduleName %>/list">Cancelar</a>
+        </div>
+      </form>
+    </div>
+  </div>
