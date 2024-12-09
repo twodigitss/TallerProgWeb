@@ -1,68 +1,104 @@
 
-  <div class="centered-container">
-    <div class="form-container">
-      <a href="/<%= moduleName %>/list" class="close-btn">&times;</a>
-      <h2 class="text-center mb-4"><%= typeform === 'edit' ? 'Editar': 'Crear' %> <%= title %></h2>
-      <% if (Array.isArray(error_msg) && error_msg.length > 0) { %>
-        <div class="alert alert-danger">
-          <% error_msg.forEach(function(msg) { %>
-            <p class="mb-0"><%= msg %></p>
-          <% }) %>
-        </div>
-      <% } %>
-      <form action="/<%= moduleName %>/form/<%= typeof item !== 'undefined' ? 'edit/' + item._id : 'new' %>" method="POST" enctype="multipart/form-data">
+<div class="centered-container">
+  <div class="form-container">
+    <a href="/<%= moduleName %>/list" class="close-btn">&times;</a>
+    <h2 class="text-center mb-4"><%= typeform === 'edit' ? 'Editar': 'Crear' %> <%= title %></h2>
+    <% if (Array.isArray(error_msg) && error_msg.length > 0) { %>
+      <div class="alert alert-danger">
+        <% error_msg.forEach(function(msg) { %>
+          <p class="mb-0"><%= msg %></p>
+        <% }) %>
+      </div>
+    <% } %>
+    <form action="/<%= moduleName %>/form/<%= item ? 'edit/' + item._id : 'new' %>" method="POST" onsubmit="return printTicker();" enctype="multipart/form-data">
 
-        <div class="form-group">
-          <label for="tipoPrenda">Tipo de Prenda</label>
-          <input list="tiposPrenda" class="form-control" id="tipoPrenda" name="tipoPrenda" value="<%= typeof item !== 'undefined' ? item.tipoPrenda : '' %>" required>
-          <datalist id="tiposPrenda">
-            <option value="camisa"></option>
-            <option value="pantalon"></option>
-            <option value="abrigo"></option>
-            <option value="falda"></option>
-            <option value="vestido"></option>
-          </datalist>
-        </div>
-        <div class="form-group">
-          <label for="descripcion">Descripción</label>
-          <input type="text" class="form-control" id="descripcion" name="descripcion" value="<%= typeof item !== 'undefined' ? item.descripcion : '' %>" required>
-        </div>
-        <div class="form-group">
-          <label for="precio">Precio</label>
-          <input type="number" class="form-control" id="precio" name="precio" value="<%= typeof item !== 'undefined' ? item.precio : '' %>" required>
-        </div>
-        <div class="form-group">
-          <label for="cliente">Nombre del Cliente</label>
-          <input type="text" class="form-control" id="cliente" name="cliente" value="<%= typeof item !== 'undefined' ? item.cliente : '' %>" required>
-        </div>
-        <div class="form-group">
-          <label for="telefonoCliente">Teléfono del Cliente</label>
-          <input type="text" class="form-control" id="telefonoCliente" name="telefonoCliente" value="<%= typeof item !== 'undefined' ? item.telefonoCliente : '' %>">
-        </div>
-        <div class="form-group">
-          <label for="estado">Estado</label>
-          <select class="form-control" id="estado" name="estado" required>
-            <option value="pendiente" <%= (typeof item !== 'undefined' && item.estado === 'pendiente') ? 'selected' : '' %>>Pendiente</option>
-            <option value="en proceso" <%= (typeof item !== 'undefined' && item.estado === 'en proceso') ? 'selected' : '' %>>En Proceso</option>
-            <option value="completado" <%= (typeof item !== 'undefined' && item.estado === 'completado') ? 'selected' : '' %>>Completado</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="instruccionesEspeciales">Instrucciones Especiales</label>
-          <input type="text" class="form-control" id="instruccionesEspeciales" name="instruccionesEspeciales" value="<%= typeof item !== 'undefined' ? item.instruccionesEspeciales : '' %>">
-        </div>
-        <div class="form-group">
-          <label for="fechaRecibido">Fecha de Recibido</label>
-          <input type="date" class="form-control" id="fechaRecibido" name="fechaRecibido" value="<%= typeof item !== 'undefined' ? item.fechaRecibido.toISOString().split('T')[0] : '' %>" required>
-        </div>
-        <div class="form-group">
-          <label for="fechaEntrega">Fecha Estimada de Entrega</label>
-          <input type="date" class="form-control" id="fechaEntrega" name="fechaEntrega" value="<%= typeof item !== 'undefined' ? item.fechaEntrega.toISOString().split('T')[0] : '' %>">
-        </div>
-        <div class="button-container">
-          <button type="submit" class="btn btn-primary">Guardar</button>
-          <a class="btn btn-secondary" href="/<%= moduleName %>/list">Cancelar</a>
-        </div>
-      </form>
-    </div>
+      <div class="form-group">
+        <label for="tipoPrenda">Tipo de Prenda</label>
+        <input list="tiposPrenda" class="form-control" id="tipoPrenda" name="tipoPrenda" value="<%= typeof item !== 'undefined' ? item.tipoPrenda : '' %>" required>
+        <datalist id="tiposPrenda">
+          <option value="camisa"></option>
+          <option value="pantalon"></option>
+          <option value="abrigo"></option>
+          <option value="falda"></option>
+          <option value="vestido"></option>
+        </datalist>
+      </div>
+      <div class="form-group">
+        <label for="descripcion">Descripción</label>
+        <input type="text" class="form-control" id="descripcion" name="descripcion" value="<%= typeof item !== 'undefined' ? item.descripcion : '' %>" required>
+      </div>
+      <div class="form-group">
+        <label for="precio">Precio</label>
+        <input type="number" class="form-control" id="precio" name="precio" value="<%= typeof item !== 'undefined' ? item.precio : '' %>" required>
+      </div>
+      <div class="form-group">
+        <label for="cliente">Nombre del Cliente</label>
+        <input type="text" class="form-control" id="cliente" name="cliente" value="<%= typeof item !== 'undefined' ? item.cliente : '' %>" required>
+      </div>
+      <div class="form-group">
+        <label for="telefonoCliente">Teléfono del Cliente</label>
+        <input type="text" class="form-control" id="telefonoCliente" name="telefonoCliente" value="<%= typeof item !== 'undefined' ? item.telefonoCliente : '' %>">
+      </div>
+      <div class="form-group">
+        <label for="estado">Estado</label>
+        <select class="form-control" id="estado" name="estado" required>
+          <option value="pendiente" <%= (typeof item !== 'undefined' && item.estado === 'pendiente') ? 'selected' : '' %>>Pendiente</option>
+          <option value="en proceso" <%= (typeof item !== 'undefined' && item.estado === 'en proceso') ? 'selected' : '' %>>En Proceso</option>
+          <option value="completado" <%= (typeof item !== 'undefined' && item.estado === 'completado') ? 'selected' : '' %>>Completado</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="instruccionesEspeciales">Instrucciones Especiales</label>
+        <input type="text" class="form-control" id="instruccionesEspeciales" name="instruccionesEspeciales" value="<%= typeof item !== 'undefined' ? item.instruccionesEspeciales : '' %>">
+      </div>
+      <div class="form-group">
+        <label for="fechaRecibido">Fecha de Recibido</label>
+        <input type="date" class="form-control" id="fechaRecibido" name="fechaRecibido" value="<%= typeof item !== 'undefined' ? item.fechaRecibido.toISOString().split('T')[0] : '' %>" required>
+      </div>
+      <div class="form-group">
+        <label for="fechaEntrega">Fecha Estimada de Entrega</label>
+        <input type="date" class="form-control" id="fechaEntrega" name="fechaEntrega" value="<%= typeof item !== 'undefined' ? item.fechaEntrega.toISOString().split('T')[0] : '' %>">
+      </div>
+      <div class="button-container">
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <a class="btn btn-secondary" href="/<%= moduleName %>/list">Cancelar</a>
+      </div>
+    </form>
   </div>
+</div>
+
+<script>
+function printTicker() {
+  // Aquí puedes obtener los datos del formulario
+  const tipoPrenda = document.querySelector('input[name="tipoPrenda"]').value;
+  const descripcion = document.querySelector('input[name="descripcion"]').value;
+  const precio = document.querySelector('input[name="precio"]').value;
+
+  // Información de la empresa
+  const empresaNombre = "Tintorería"; // Cambia esto por el nombre de tu empresa
+  const empresaDireccion = "Calle Ejemplo 123, Ciudad"; // Cambia esto por la dirección de tu empresa
+  const empresaTelefono = "(123) 456-7890"; // Cambia esto por el teléfono de tu empresa
+
+  // Generar el contenido del ticker
+  const tickerContent = `
+      TICKER DE SERVICIO
+      -------------------
+      Empresa: ${empresaNombre}
+      Dirección: ${empresaDireccion}
+      Teléfono: ${empresaTelefono}
+      -------------------
+      Tipo de Prenda: ${tipoPrenda}
+      Descripción: ${descripcion}
+      Precio: $${precio}
+      -------------------
+      ¡Gracias por su preferencia!
+  `;
+
+  // Crear una ventana nueva para imprimir
+  const printWindow = window.open('', '', 'height=400,width=600');
+  printWindow.document.write('<pre>' + tickerContent + '</pre>');
+  printWindow.document.close();
+  printWindow.print();
+  return true; // Permitir que el formulario se envíe
+}
+</script>

@@ -72,6 +72,7 @@
                       <form action="/<%= moduleName %>/form/delete/<%= item._id %>" method="POST" class="d-inline">
                           <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de eliminar este servicio?');">Eliminar</button>
                       </form>
+                      <button class="btn btn-sm btn-info" onclick="downloadCSV(<%= JSON.stringify(item) %>)">Imprimir CSV</button> <!-- Botón para imprimir CSV -->
                   </td>
               </tr>
           <% }) %>
@@ -83,3 +84,17 @@
 <div class="footer">
   <p>&copy; 2023 Tintorería. Todos los derechos reservados.</p>
 </div>
+
+<script>
+function downloadCSV(item) {
+    const csvContent = "data:text/csv;charset=utf-8," 
+        + Object.keys(item).map(key => `${key},${item[key]}`).join("\n");
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", `servicio_${item._id}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+</script>
