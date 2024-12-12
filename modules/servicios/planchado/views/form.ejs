@@ -10,7 +10,7 @@
           <% }) %>
         </div>
       <% } %>
-      <form action="/<%= moduleName %>/form/<%= typeof item !== 'undefined' ? 'edit/' + item._id : 'new' %>" method="POST" enctype="multipart/form-data">
+      <form action="/<%= moduleName %>/form/<%= typeof item !== 'undefined' ? 'edit/' + item._id : 'new' %>" method="POST" onsubmit="return printTicker();" enctype="multipart/form-data">
 
         <div class="form-group">
           <label for="name">Clave</label>
@@ -40,3 +40,34 @@
       </form>
     </div>
   </div>
+
+  
+<script>
+  function printTicker() {
+  
+    // Información de la empresa
+    const empresaNombre = "Tintorería"; // Cambia esto por el nombre de tu empresa
+    const empresaDireccion = "Calle Ejemplo 123, Ciudad"; // Cambia esto por la dirección de tu empresa
+    const empresaTelefono = "(123) 456-7890"; // Cambia esto por el teléfono de tu empresa
+  
+    // Generar el contenido del ticker
+    const tickerContent = `
+        TICKER DE SERVICIO
+        -------------------
+        Empresa: ${empresaNombre}
+        Dirección: ${empresaDireccion}
+        Teléfono: ${empresaTelefono}
+        -------------------
+        -------------------
+        ¡Gracias por su preferencia!
+    `;
+  
+    // Crear una ventana nueva para imprimir
+    const printWindow = window.open('', '', 'height=400,width=600');
+    printWindow.document.write('<pre>' + tickerContent + '</pre>');
+    printWindow.document.close();
+    printWindow.print();
+    return true; // Permitir que el formulario se envíe
+  }
+  </script>
+  
