@@ -3,7 +3,7 @@ require('dotenv').config();
 const express = require('express');
 const session = require('express-session');
 const mongoose = require('mongoose');
-const flash = require('connect-flash');
+const flash = require('express-flash');
 const passport = require('passport');
 const path = require('path');
 const fs = require('fs');
@@ -33,7 +33,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
-  saveUninitialized: false
+  saveUninitialized: true
 }));
 
 // Passport middleware

@@ -84,30 +84,30 @@ exports.showCreateItemForm = async (req, res, moduleName, view, Model, typeform)
 
 
 exports.createItem = async (req, res, moduleName, Model) => {
-    try {
+  try {
 
-      const fields = Object.keys(Model.schema.paths).filter(path => !path.startsWith('_'));
+    const fields = Object.keys(Model.schema.paths).filter(path => !path.startsWith('_'));
 
-      let data = {};
-      fields.forEach(field => {
-        if (req.body[field] !== undefined) {
-          data[field] = req.body[field];
-        }
-      });
-
-      if (req.file) {
-        data.profileImage = req.file.filename; // Guardar la nueva imagen si se carga
+    let data = {};
+    fields.forEach(field => {
+      if (req.body[field] !== undefined) {
+        data[field] = req.body[field];
       }
+    });
 
-      const newItem = new Model(data); // Crear un nuevo usuario
-      await newItem.save(); // Guardar el usuario en la base de datos
-      req.flash('success_msg', `${Model.modelName} creado correctamente.`);
-      res.redirect(`/${moduleName}/list`); // edirigir a la lista de items
-    } catch (err) {
-      console.error(`Error al crear ${Model.modelName}:`, err);
-      req.flash('error_msg', `Error al crear el ${Model.modelName}.`);
-      res.redirect(`/${moduleName}/form/new`);
+    if (req.file) {
+      data.profileImage = req.file.filename; // Guardar la nueva imagen si se carga
     }
+
+    const newItem = new Model(data); // Crear un nuevo usuario
+    await newItem.save(); // Guardar el usuario en la base de datos
+    req.flash('success_msg', `${Model.modelName} creado correctamente.`);
+    res.redirect(`/${moduleName}/list`); // edirigir a la lista de items
+  } catch (err) {
+    console.error(`Error al crear ${Model.modelName}:`, err);
+    req.flash('error_msg', `Error al crear el ${Model.modelName}.`);
+    res.redirect(`/${moduleName}/form/new`);
+  }
 };
 
 exports.updateItem = async (req, res, moduleName, Model) => {
@@ -119,12 +119,23 @@ exports.updateItem = async (req, res, moduleName, Model) => {
         data[field] = req.body[field];
       }
     });
-  
+
     if (req.file) {
       data.profileImage = req.file.filename; // Guardar la nueva imagen si se carga
     }
 
     try {
+      // Encuentra el documento actual
+      const currentItem = await Model.findById(req.params.id);
+
+      // Si no se proporciona una nueva contraseña, mantener la actual
+      if (!req.body.password || req.body.password.trim() === '') {
+        data.password = currentItem.password;
+      } else {
+        // Aquí deberías hashear la nueva contraseña antes de guardarla
+        data.password = req.body.password; // Reemplaza con el hash de la contraseña
+      }
+
       await Model.findByIdAndUpdate(req.params.id, data); // Actualizar el usuario
       req.flash('success_msg', `${Model.modelName} actualizado correctamente.`);
       res.redirect(`/${moduleName}/list`);

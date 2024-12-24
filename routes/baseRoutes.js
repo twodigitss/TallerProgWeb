@@ -14,14 +14,14 @@ module.exports = function(router, params) {
         mainController.getItemsPaginated(req,res,params.moduleName,params.view_list,params.model,params.title).catch(next) 
     }); 
     
-    router.get(`${params.route}/form/new`, ensureAuthenticated,  (req, res, next) => {
-        mainController.showCreateItemForm(req,res,params.moduleName,params.view_form,params.model,'create').catch(next)
+    router.get(`${params.route}/form/new`, ensureAuthenticated, (req, res, next) => {
+        mainController.showCreateItemForm(req, res, params.moduleName, params.view_form, params.model, 'create').catch(next);
     }); // Mostrar formulario de creación de usuario
     
     router.post(`${params.route}/form/new`, ensureAuthenticated, upload.single('profileImage'), (req, res, next) => mainController.createItem(req,res,params.moduleName,params.model).catch(next));
     
-    router.get(`${params.route}/form/edit/:id`, ensureAuthenticated, (req, res, next) =>{
-        mainController.showEditUserForm(req,res,params.moduleName,params.view_form,params.model,'edit').catch(next) 
+    router.get(`${params.route}/form/edit/:id`, ensureAuthenticated, (req, res, next) => {
+        mainController.showEditUserForm(req, res, params.moduleName, params.view_form, params.model, 'edit').catch(next);
     }); // Mostrar formulario de edición de usuario
     
     router.post(`${params.route}/form/edit/:id`, ensureAuthenticated, upload.single('profileImage'), (req, res, next) => mainController.updateItem(req,res,params.moduleName,params.model).catch(next)); // 

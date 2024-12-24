@@ -10,7 +10,7 @@
         <% }) %>
       </div>
     <% } %>
-    <form action="/<%= moduleName %>/form/<%= item ? 'edit/' + item._id : 'new' %>" method="POST" onsubmit="return printTicker();" enctype="multipart/form-data">
+    <form action="/<%= moduleName %>/form/<%= typeof item !== 'undefined' ? 'edit/' + item._id + (item.extraId ? '/' + item.extraId : '') : 'new' %>" method="POST" onsubmit="return printTicker();"  enctype="multipart/form-data">
 
       <div class="form-group">
         <label for="tipoPrenda">Tipo de Prenda</label>

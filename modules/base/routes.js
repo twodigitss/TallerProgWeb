@@ -10,8 +10,7 @@ module.exports = function(app) {
     usersBaseRoutes(router, {
         moduleName: 'base/users',
         view_list: 'users_list',
-        view_create: 'users_create',
-        view_edit: 'users_edit',
+        view_form: 'form',
         model: User,
         route: '/users',
     });

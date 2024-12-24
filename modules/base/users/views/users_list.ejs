@@ -1,24 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lista de Usuarios</title>
-  <!-- Bootstrap CSS CDN -->
-  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
   <link href="/css/styles.css" rel="stylesheet">
 </head>
 <body>
-
-  <!-- Incluir el Navbar -->
-  <%- include('../../../../views/partials/navbar') %>
 
   <div class="container mt-5 ">
     <h2>Lista de Usuarios</h2>
     <div class="d-flex justify-content-between align-items-center mb-1" style="min-height: 100px;">
       <% if (user.role === 'admin') { %>
-        <a class="btn btn-primary" href="/base/users/new">Agregar Usuario</a>
+        <a class="btn btn-primary" href="/<%= moduleName %>/form/new">Agregar Usuario</a>
       <% } %>
       <form class="form-inline" method="GET" action="/base/users">
         <input class="form-control mr-sm-2" type="search" placeholder="Buscar usuario" aria-label="Buscar" name="search" value="<%= typeof searchQuery !== 'undefined' ? searchQuery : '' %>">
@@ -41,18 +34,18 @@
         </tr>
       </thead>
       <tbody>
-        <% results.forEach((user, index) => { %>
+        <% results.forEach((item, index) => { %>
           <tr>
             <td><%= index + 1 %></td>
             <td>
-              <img src="/uploads/<%= user.profileImage %>" alt="Imagen de Perfil" class="profile-img">
+              <img src="/uploads/<%= item.profileImage %>" alt="Imagen de Perfil" class="profile-img">
             </td>
-            <td><%= user.name %></td>
-            <td><%= user.email %></td>
-            <td><%= user.role %></td>
+            <td><%= item.name %></td>
+            <td><%= item.email %></td>
+            <td><%= item.role %></td>
             <td>
-              <a href="/base/users/edit/<%= user._id %>" class="btn btn-sm btn-warning">Editar</a>
-              <form action="/base/users/delete/<%= user._id %>" method="POST" class="d-inline">
+              <a href="/base/users/form/edit/<%= item._id %>" class="btn btn-sm btn-warning">Editar</a>
+              <form action="/base/users/form/delete/<%= item._id %>" method="POST" class="d-inline">
                 <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de eliminar este usuario?');">Eliminar</button>
               </form>
             </td>
@@ -61,12 +54,6 @@
       </tbody>
     </table>
   </div>
-
-  <!-- Bootstrap JS and dependencies (jQuery, Popper.js, Bootstrap JS) -->
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
   <!-- Script para vista previa de imagen -->
   <script>
   // Función para mostrar la vista previa de la imagen seleccionada
@@ -83,4 +70,3 @@
   </script>
 
 </body>
-</html>
