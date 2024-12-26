@@ -14,11 +14,19 @@ module.exports = function (passport) {
         return done(null, false, { message: 'El correo no está registrado' });
       }
 
-      // Comparar la contraseña ingresada con la almacenada
-      const isMatch = await bcrypt.compare(password, user.password);
-      if (!isMatch) {
-        return done(null, false, { message: 'Contraseña incorrecta' });
-      }
+      // Verificar si la contraseña coincide (encriptada o no)
+const isMatch = await bcrypt.compare(password, user.password);
+
+if (!isMatch) {
+  // Si la contraseña no coincide en modo encriptado, verifica si es texto plano
+  if (password !== user.password) {
+    return done(null, false, { message: 'Contraseña incorrecta' });
+  }
+}
+
+// Si pasa alguna de las validaciones, continuar con la autenticación
+return done(null, user);
+
 
       // Si todo va bien, retorna el usuario
       return done(null, user);
