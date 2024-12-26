@@ -1,0 +1,79 @@
+<head>
+  <style>
+      <%- include('../../../../public/css/estilos.css') %>  
+  </style>
+  <script>
+    function validarFormulario(event) {
+      event.preventDefault(); // Evita el envío del formulario
+
+      // Obtener los valores de los campos
+      const nombre = document.getElementById('nombre').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const mayorEdad = document.getElementById('mayorEdad').checked;
+
+      // Verificar que los campos obligatorios no estén vacíos
+      if (nombre && email && mayorEdad) {
+        alert('Correo enviado exitosamente');
+        document.querySelector('form').reset(); // Limpiar el formulario
+      } else {
+        alert('Por favor, completa todos los campos obligatorios.');
+      }
+    }
+  </script>
+</head>
+<div class="container mt-5">
+<div class="header">
+    <h1>Contacto</h1>
+    <p>Ponte en contacto con nosotros para cualquier consulta o información adicional.</p>
+</div>
+
+<!-- Información de contacto -->
+<div class="alert alert-info text-center" role="alert">
+  <p>Si necesitas contactar con Virgolini para consultarnos cualquier cosa de nuestras tintorerías, dudas sobre si realizamos algún servicio, dónde están ubicadas nuestras tiendas, o los países dónde nos encontramos, puedes hacerlo en nuestros teléfonos de contacto o bien desde el siguiente formulario.</p>
+    <strong>¡Estamos aquí para ayudarte!</strong> No dudes en ponerte en contacto con nosotros a través de cualquiera de los siguientes medios.
+</div>
+
+<h2 class="text-center text-primary">Información de Contacto</h2>
+
+<div class="mb-4">
+    <p><strong>Dirección:</strong> Calle de la Tintorería, 123, 28001 Madrid, España</p>
+    <p><strong>Teléfono:</strong> +34 912 345 678</p>
+    <p><strong>Email:</strong> contacto@virgolini.com</p>
+    <p><strong>Horario de Atención:</strong> Lunes a Viernes de 9:00 a 18:00</p>
+</div>
+
+<h2 class="text-center text-primary">Formulario de Contacto</h2>
+
+<div class="mb-4">
+    <form onsubmit="validarFormulario(event)">
+        <div class="form-group">
+            <label for="nombre">Nombre: *</label>
+            <input type="text" class="form-control" id="nombre" placeholder="Tu nombre" required>
+        </div>
+        <div class="form-group">
+            <label for="apellidos">Apellidos:</label>
+            <input type="text" class="form-control" id="apellidos" placeholder="Tus apellidos">
+        </div>
+        <div class="form-group">
+            <label for="email">Email: *</label>
+            <input type="email" class="form-control" id="email" placeholder="Tu email" required>
+        </div>
+        <div class="form-group">
+            <label for="observaciones">Observaciones:</label>
+            <textarea class="form-control" id="observaciones" rows="4" placeholder="Tus observaciones"></textarea>
+        </div>
+        <div class="form-group form-check">
+            <input type="checkbox" class="form-check-input" id="mayorEdad" required>
+            <label class="form-check-label" for="mayorEdad">Sí, soy mayor de 18 años y deseo recibir información. Mediante el envío de mis datos personales confirmo que he leído y acepto el aviso de privacidad. *</label>
+        </div>
+        <div class="form-group form-check">
+            <input type="checkbox" class="form-check-input" id="comunicacionesComerciales">
+            <label class="form-check-label" for="comunicacionesComerciales">Sí, deseo recibir comunicaciones comerciales de Virgolini.</label>
+        </div>
+        <button type="submit" class="btn btn-primary">Enviar</button>
+    </form>
+</div>
+
+<div class="footer">
+<p>&copy; 2023 Virgolini. Todos los derechos reservados.</p>
+</div>
