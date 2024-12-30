@@ -13,12 +13,11 @@
       <% if (user.role === 'admin') { %>
         <a class="btn btn-primary" href="/<%= moduleName %>/form/new">Agregar Usuario</a>
       <% } %>
-      <form class="form-inline" method="GET" action="/base/users">
+      <form class="form-inline" method="GET" action="/base/users/list">
         <input class="form-control mr-sm-2" type="search" placeholder="Buscar usuario" aria-label="Buscar" name="search" value="<%= typeof searchQuery !== 'undefined' ? searchQuery : '' %>">
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
       </form>
       <%- include('../../../../views/partials/pages',{ modelView: 'users' }) %>
-      <a href="/base/users/export" class="btn btn-primary">Export to CSV</a>
     </div>
 
     <!-- Tabla de Usuarios -->
